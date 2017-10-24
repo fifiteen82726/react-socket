@@ -21,6 +21,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+io.on('connection', socket => {
+  socket.on('message', body => {
+    socket.broadcast.emit('message', {
+      body,
+      from: socket.id.slice(8)
+    })
+  })
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
