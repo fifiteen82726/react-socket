@@ -19,9 +19,13 @@ class App extends Component {
   }
 
   handleSubmit = message => {
-    this.setState({ messages: [message, ...this.state.messages]}, () => {
+    this.setState({ messages: [...this.state.messages, message]}, () => {
       console.log(this.state.messages)
     })
+  }
+
+  handleScrollToDown = () => {
+
   }
 
   render() {

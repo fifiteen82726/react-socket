@@ -1,6 +1,9 @@
-import React, { Component } from 'react'
-import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Row, Col } from 'reactstrap';
+import React from 'react'
+import {
+  Card,
+  Row,
+  Col
+} from 'reactstrap';
 
 const MessageList = props => {
   return (
@@ -9,7 +12,7 @@ const MessageList = props => {
         <Card body>
           {
             props.messages.map((message, index) => {
-              return <p key={index}>{message}</p>
+              return <p key={index}>{message.username}:{message.content}</p>
             })
           }
         </Card>
