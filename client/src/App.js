@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Header from './components/Header'
 import MessageList from './components/MessageList'
+import UsernameInput from './components/UsernameInput'
 import MessageInput from './components/MessageInput'
 import io from 'socket.io-client'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -14,18 +15,17 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
 
     this.state = {
+      username: '',
       messages: []
     }
   }
 
   handleSubmit = message => {
-    this.setState({ messages: [...this.state.messages, message]}, () => {
-      console.log(this.state.messages)
-    })
+    this.setState({ messages: [...this.state.messages, message]})
   }
 
-  handleScrollToDown = () => {
-
+  handleChangeUsername = username => {
+    this.setState({username: username})
   }
 
   render() {
@@ -33,7 +33,8 @@ class App extends Component {
       <div className="container">
         <Header />
         <MessageList messages={this.state.messages} />
-        <MessageInput onSubmit={this.handleSubmit}/>
+        <UsernameInput onChange={this.handleChangeUsername} />
+        <MessageInput username={this.state.username} onSubmit={this.handleSubmit}/>
       </div>
     );
   }

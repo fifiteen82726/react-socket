@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  Card,
-  Row,
-  Col
-} from 'reactstrap';
+import {Card, Row, Col} from 'reactstrap';
 
 const MessageList = props => {
   return (
