@@ -4,7 +4,7 @@ import MessageList from './components/MessageList'
 import UsernameInput from './components/UsernameInput'
 import MessageInput from './components/MessageInput'
 import io from 'socket.io-client'
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
 
 class App extends Component {
@@ -13,6 +13,7 @@ class App extends Component {
     super()
 
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChangeUsername = this.handleChangeUsername.bind(this)
 
     this.state = {
       username: '',
@@ -20,8 +21,16 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    this.socket = io('http://localhost:4000')
+    this.socket.on('message', message => {
+      this.setState({ messages: [...this.state.messages, message]})
+    })
+  }
+
   handleSubmit = message => {
     this.setState({ messages: [...this.state.messages, message]})
+    this.socket.emit('message', message)
   }
 
   handleChangeUsername = username => {

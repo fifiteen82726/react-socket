@@ -12,7 +12,9 @@ const UsernameInput = props => {
   return (
     <Row>
       <Col sm={12}>
-        <Input type="text" placeholder="Enter username ..." onChange={handleSubmit}/>
+        <div>
+          <Input type="text" placeholder="Enter username ..." onChange={handleSubmit}/>
+        </div>
       </Col>
     </Row>
   )

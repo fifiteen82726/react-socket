@@ -22,11 +22,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', socket => {
-  socket.on('message', body => {
-    socket.broadcast.emit('message', {
-      body,
-      from: socket.id.slice(8)
-    })
+  socket.on('message', message => {
+    console.log(message);
+    socket.broadcast.emit('message', message)
   })
 })
 
@@ -49,5 +47,5 @@ app.use(function(err, req, res, next) {
 });
 
 server.listen(4000, () => {
-  console.log('Listening on 3000');
+  console.log('Listening on 4000');
 })
