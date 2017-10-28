@@ -1,78 +1,46 @@
 import React, {Component} from 'react'
-import Header from './components/Header'
-import MessageList from './components/MessageList'
-import UsernameInput from './components/UsernameInput'
-import MessageInput from './components/MessageInput'
+import ChatBox from './components/ChatBox'
+import LoginForm from './components/LoginForm'
 import io from 'socket.io-client'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
 
-let socket = io('http://localhost:4000')
+const socketUrl = 'http://localhost:4000'
 
 class App extends Component {
 
   constructor() {
     super()
 
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChangeUsername = this.handleChangeUsername.bind(this)
-
     this.state = {
-      clients: '',
-      username: '',
-      messages: []
+      socket: null,
+      username: ''
     }
   }
 
   componentDidMount() {
-    console.log("DidMount ...");
-    socket.on('init', client => {
-      console.log(client);
-      this.setState({clients:client});
-    })
-    socket.on('message', message => {
-      this.setState({ messages: [ ...this.state.messages, message ] })
-    })
-    socket.on('clientCount', clinet => {
-      this.setState({clients: clinet});
-    })
+    const socket = io(socketUrl)
+    this.setState({socket: socket})
   }
 
-  handleSubmit = message => {
-    this.setState({
-      messages: [
-        ...this.state.messages,
-        message
-      ]
-    })
-    socket.emit('message', message)
-  }
-
-  handleChangeUsername = username => {
+  handleGetUsername = username => {
+    const { socket } = this.state
+    socket.emit('newUser', username)
+    console.log(username);
     this.setState({username: username})
   }
 
+
   render() {
 
-    const username = this.state.username;
-
-    const Main = (
-      <div>
-        <Header clients={this.state.clients} />
-        <MessageList messages={this.state.messages}/>
-        <MessageInput username={this.state.username} onSubmit={this.handleSubmit}/>
-      </div>
-    )
-    const Login = (
-      <div className='loginBox'>
-        <UsernameInput onSubmit={this.handleChangeUsername}/>
-      </div>
-    )
+    const {socket, username} = this.state;
 
     return (
       <div className="container">
         {
-          username ? Main : Login
+          username
+          ? <ChatBox socket={socket} username={username} />
+          : <LoginForm socket={this.state.socket} onSubmit={this.handleGetUsername}/>
         }
       </div>
     );

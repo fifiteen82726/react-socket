@@ -27,7 +27,10 @@ io.on('connection', socket => {
 
   clientCount++;
 
-  socket.emit('init', clientCount);
+  socket.on('newUser', username => {
+    socket.emit('clientCount', clientCount)
+  })
+
   socket.broadcast.emit('clientCount', clientCount)
   console.log("a user connected. Client number:", clientCount);
 
