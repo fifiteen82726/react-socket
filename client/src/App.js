@@ -53,12 +53,27 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
+
+    const username = this.state.username;
+
+    const Main = (
+      <div>
         <Header clients={this.state.clients} />
         <MessageList messages={this.state.messages}/>
-        <UsernameInput onChange={this.handleChangeUsername}/>
         <MessageInput username={this.state.username} onSubmit={this.handleSubmit}/>
+      </div>
+    )
+    const Login = (
+      <div className='loginBox'>
+        <UsernameInput onSubmit={this.handleChangeUsername}/>
+      </div>
+    )
+
+    return (
+      <div className="container">
+        {
+          username ? Main : Login
+        }
       </div>
     );
   }
