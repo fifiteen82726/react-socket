@@ -21,11 +21,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+let clientCount = 0;
+
 io.on('connection', socket => {
+
+  clientCount++;
+
+  socket.emit('init', clientCount);
+  socket.broadcast.emit('clientCount', clientCount)
+  console.log("a user connected. Client number:", clientCount);
+
   socket.on('message', message => {
     console.log(message);
     socket.broadcast.emit('message', message)
   })
+
+  socket.on('disconnect', () => {
+    clientCount--;
+    socket.broadcast.emit('clientCount', clientCount)
+    console.log("a user disconnect. Client number:", clientCount);
+  });
+
 })
 
 // catch 404 and forward to error handler

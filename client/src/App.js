@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Header from './components/Header'
 import MessageList from './components/MessageList'
 import UsernameInput from './components/UsernameInput'
@@ -6,6 +6,8 @@ import MessageInput from './components/MessageInput'
 import io from 'socket.io-client'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
+
+let socket = io('http://localhost:4000')
 
 class App extends Component {
 
@@ -16,21 +18,34 @@ class App extends Component {
     this.handleChangeUsername = this.handleChangeUsername.bind(this)
 
     this.state = {
+      clients: '',
       username: '',
       messages: []
     }
   }
 
   componentDidMount() {
-    this.socket = io('http://localhost:4000')
-    this.socket.on('message', message => {
-      this.setState({ messages: [...this.state.messages, message]})
+    console.log("DidMount ...");
+    socket.on('init', client => {
+      console.log(client);
+      this.setState({clients:client});
+    })
+    socket.on('message', message => {
+      this.setState({ messages: [ ...this.state.messages, message ] })
+    })
+    socket.on('clientCount', clinet => {
+      this.setState({clients: clinet});
     })
   }
 
   handleSubmit = message => {
-    this.setState({ messages: [...this.state.messages, message]})
-    this.socket.emit('message', message)
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        message
+      ]
+    })
+    socket.emit('message', message)
   }
 
   handleChangeUsername = username => {
@@ -40,9 +55,9 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Header />
-        <MessageList messages={this.state.messages} />
-        <UsernameInput onChange={this.handleChangeUsername} />
+        <Header clients={this.state.clients} />
+        <MessageList messages={this.state.messages}/>
+        <UsernameInput onChange={this.handleChangeUsername}/>
         <MessageInput username={this.state.username} onSubmit={this.handleSubmit}/>
       </div>
     );
