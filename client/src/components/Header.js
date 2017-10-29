@@ -2,10 +2,7 @@ import React, {Component} from 'react'
 import {Row, Col} from 'reactstrap'
 import TiUser from 'react-icons/lib/ti/user'
 
-
-
 const Header = (props) => {
-
   return (
     <Row>
       <Col sm={12}>
@@ -17,7 +14,6 @@ const Header = (props) => {
       </Col>
     </Row>
   )
-
 }
 
 export default Header

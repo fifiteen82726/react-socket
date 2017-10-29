@@ -30,9 +30,7 @@ class App extends Component {
     this.setState({username: username})
   }
 
-
   render() {
-
     const {socket, username} = this.state;
 
     return (

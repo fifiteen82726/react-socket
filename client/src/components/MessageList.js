@@ -14,7 +14,6 @@ const MessageList = props => {
         </Card>
       </Col>
     </Row>
-
   )
 }
 

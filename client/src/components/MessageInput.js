@@ -9,9 +9,7 @@ import {
 } from 'reactstrap';
 
 const MessageInput = props => {
-
   const handleSubmit = event => {
-
     if (event.key === 'Enter') {
       if (event.target.value === '') {
         alert("Please Enter message ...")

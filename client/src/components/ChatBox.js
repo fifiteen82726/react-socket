@@ -36,11 +36,9 @@ export default class Chatbox extends Component {
         ]
       })
     })
-
   }
 
   handleSubmit = message => {
-
     const {socket} = this.props
 
     this.setState({

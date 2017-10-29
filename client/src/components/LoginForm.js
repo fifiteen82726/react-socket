@@ -12,11 +12,9 @@ class LoginForm extends Component {
   }
 
   handleSubmit = event => {
-
     if (event.key === 'Enter' || event.type === 'click') {
       this.props.onSubmit(event.target.value)
     }
-
   }
 
   handleChangeUsername = event => {
